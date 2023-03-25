@@ -2,7 +2,7 @@
 
 class ApiConstants {
   static const String MOVIES_BASE_URL = 'https://api.themoviedb.org/3';
-  static const String API_KEY = 'c3435cfe40aeb079689227d82bf921d3';
+  static const String API_KEY = '[Your API KEY Here]';
   static const String BASE_IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
 
   static const String NOW_PLAYING_MOVIES =
