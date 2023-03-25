@@ -7,5 +7,4 @@ This is A Clean Architecture Movies App.
 
 #### A Few ScreenShot:
   
-![MainScreen](https://user-images.githubusercontent.com/85020587/227742504-892091fe-e34d-459f-82c1-efa57c431717.png)  = 250x250
 <img src="https://user-images.githubusercontent.com/85020587/227742504-892091fe-e34d-459f-82c1-efa57c431717.png" width="200" height="400" />
