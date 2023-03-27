@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_clean_architecture/core/services/services_locator.dart';
-import 'package:movies_clean_architecture/movies/presentation/blocs/movies_bloc/movies_bloc.dart';
-import 'package:movies_clean_architecture/movies/presentation/components/now_playing_movies.dart';
-import 'package:movies_clean_architecture/movies/presentation/components/popular_movies.dart';
-import 'package:movies_clean_architecture/movies/presentation/components/top_rated_movies.dart';
+import 'package:movies_clean_architecture/movies/presentation/blocs/main_screen_bloc/movies_bloc.dart';
+import 'package:movies_clean_architecture/movies/presentation/components/main_screen/now_playing_movies.dart';
+import 'package:movies_clean_architecture/movies/presentation/components/main_screen/popular_movies.dart';
+import 'package:movies_clean_architecture/movies/presentation/components/main_screen/top_rated_movies.dart';
 
 class MainMoviesScreen extends StatelessWidget {
   const MainMoviesScreen({Key? key}) : super(key: key);
