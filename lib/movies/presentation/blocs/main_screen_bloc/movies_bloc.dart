@@ -7,7 +7,7 @@ import 'package:movies_clean_architecture/movies/domain/entities/movie.dart';
 import 'package:movies_clean_architecture/movies/domain/usecases/main_screen/get_now_playing_use_case.dart';
 import 'package:movies_clean_architecture/movies/domain/usecases/main_screen/get_popular_use_case.dart';
 import 'package:movies_clean_architecture/movies/domain/usecases/main_screen/get_top_rated_use_case.dart';
-
+import 'package:movies_clean_architecture/movies/domain/usecases/main_screen/search_movie_use_case.dart';
 
 part 'movies_event.dart';
 part 'movies_state.dart';
@@ -16,15 +16,18 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   final GetNowPlayingMoviesUseCase getNowPlayingUseCase;
   final GetPopularMoviesUseCase getPopularMoviesUseCase;
   final GetTopRatedMoviesUseCase getTopRatedMoviesUseCase;
+  final SearchMovieUseCase searchMovieUseCase;
 
   MoviesBloc(
     this.getNowPlayingUseCase,
     this.getPopularMoviesUseCase,
     this.getTopRatedMoviesUseCase,
+    this.searchMovieUseCase,
   ) : super(MoviesInitialState()) {
     on<GetNowPlayingMoviesEvent>(_getNowPlayingMovies);
     on<GetPopularMoviesEvent>(_getPopularMovies);
     on<GetTopRatedMoviesEvent>(_getTopRatedMovies);
+    on<SearchForMovieEvent>(_searchForMovie);
   }
 
   FutureOr<void> _getNowPlayingMovies(
@@ -80,6 +83,25 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         TopRatedMoviesState(
           topRatedMovies: r,
           topRatedRequestState: RequestState.loaded,
+        ),
+      ),
+    );
+  }
+
+  FutureOr<void> _searchForMovie(
+      SearchForMovieEvent event, Emitter<MoviesState> emit) async {
+    final result = await searchMovieUseCase(event.movieName);
+    result.fold(
+      (l) => emit(
+        SearchForMovieState(
+          searchMovieErrorMessage: l.message,
+          searchMovieRequestState: RequestState.error,
+        ),
+      ),
+      (r) => emit(
+        SearchForMovieState(
+          searchMovieResults: r,
+          searchMovieRequestState: RequestState.loaded,
         ),
       ),
     );

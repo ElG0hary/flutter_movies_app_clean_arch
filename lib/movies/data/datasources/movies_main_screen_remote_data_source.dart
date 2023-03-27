@@ -8,6 +8,7 @@ abstract class BaseMovieRemoteDataSource {
   Future<List<MovieModel>> getNowPlayingMovies();
   Future<List<MovieModel>> getPopularMovies();
   Future<List<MovieModel>> getTopRatedMovies();
+  Future<List<MovieModel>> searchForMovie(String movieName);
 }
 
 class MovieRemoteDataSourceImpl extends BaseMovieRemoteDataSource {
@@ -26,6 +27,12 @@ class MovieRemoteDataSourceImpl extends BaseMovieRemoteDataSource {
   @override
   Future<List<MovieModel>> getTopRatedMovies() async {
     final response = await Dio().get(ApiConstants.GET_TOP_RATED_URL);
+    return _dataOrException(response);
+  }
+
+  @override
+  Future<List<MovieModel>> searchForMovie(String movieName) async {
+    final response = await Dio().get(ApiConstants.searchForMovie(movieName));
     return _dataOrException(response);
   }
 

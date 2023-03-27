@@ -5,6 +5,7 @@ import 'package:movies_clean_architecture/core/services/services_locator.dart';
 import 'package:movies_clean_architecture/movies/presentation/blocs/main_screen_bloc/movies_bloc.dart';
 import 'package:movies_clean_architecture/movies/presentation/components/main_screen/now_playing_movies.dart';
 import 'package:movies_clean_architecture/movies/presentation/components/main_screen/popular_movies.dart';
+import 'package:movies_clean_architecture/movies/presentation/components/main_screen/search_movie.dart';
 import 'package:movies_clean_architecture/movies/presentation/components/main_screen/top_rated_movies.dart';
 
 class MainMoviesScreen extends StatelessWidget {
@@ -19,6 +20,19 @@ class MainMoviesScreen extends StatelessWidget {
         ..add(GetTopRatedMoviesEvent()),
       child: Scaffold(
         backgroundColor: Colors.grey.shade900,
+        appBar: AppBar(
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                onPressed: () {
+                  showSearch(context: context, delegate: MovieSearchDelegate());
+                },
+                icon: const Icon(Icons.search),
+              ),
+            ),
+          ],
+        ),
         body: SingleChildScrollView(
           key: const Key('movieScrollView'),
           child: Column(
@@ -102,6 +116,69 @@ class MainMoviesScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class MovieSearchDelegate extends SearchDelegate {
+  @override
+  List<Widget>? buildActions(BuildContext context) => [
+        IconButton(
+            onPressed: () {
+              if (query.isEmpty) {
+                close(context, null);
+              } else {
+                // change the searchBar Text
+                query = '';
+              }
+            },
+            icon: const Icon(Icons.clear)),
+      ];
+
+  @override
+  Widget? buildLeading(BuildContext context) => IconButton(
+      // would close the searchBar
+      onPressed: () => close(context, null),
+      icon: const Icon(Icons.arrow_back));
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> movieSuggestions = [
+      'Iron Man',
+      'Avengers',
+      'John Wick',
+    ];
+    return ListView.builder(
+      itemBuilder: (context, index) => ListTile(
+        title: Text(movieSuggestions[index]),
+        onTap: () => query = movieSuggestions[index],
+      ),
+      itemCount: movieSuggestions.length,
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return BlocProvider(
+      //! The movie db Api request usese %20 between words
+      create: (context) => sl<MoviesBloc>()
+        ..add(SearchForMovieEvent(query.replaceAll(' ', '%20'))),
+      child: BlocBuilder<MoviesBloc, MoviesState>(
+        builder: (context, state) {
+          if (state is SearchForMovieState) {
+            return ListView.builder(
+              itemBuilder: (context, index) => SearchForMovieComponent(
+                movie: state.searchMovieResults![index],
+              ),
+              itemCount: state.searchMovieResults!.length,
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }

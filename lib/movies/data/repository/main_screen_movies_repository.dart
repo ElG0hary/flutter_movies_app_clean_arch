@@ -29,7 +29,13 @@ class MoviesRepository extends BaseMainScreenMoviesRepository {
     return _moviesOrFailure(moviesResult);
   }
 
-  Either<Failure, List<Movie>>  _moviesOrFailure(
+  @override
+  Future<Either<Failure, List<Movie>>> searchForMovie(String movieName) async {
+    final moviesResult = await _remoteDataSource.searchForMovie(movieName);
+    return _moviesOrFailure(moviesResult);
+  }
+
+  Either<Failure, List<Movie>> _moviesOrFailure(
     List<MovieModel> moviesResult,
   ) {
     try {

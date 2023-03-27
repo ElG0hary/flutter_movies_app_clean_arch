@@ -10,6 +10,7 @@ import 'package:movies_clean_architecture/movies/domain/usecases/get_movie_detai
 import 'package:movies_clean_architecture/movies/domain/usecases/main_screen/get_now_playing_use_case.dart';
 import 'package:movies_clean_architecture/movies/domain/usecases/main_screen/get_popular_use_case.dart';
 import 'package:movies_clean_architecture/movies/domain/usecases/main_screen/get_top_rated_use_case.dart';
+import 'package:movies_clean_architecture/movies/domain/usecases/main_screen/search_movie_use_case.dart';
 import 'package:movies_clean_architecture/movies/presentation/blocs/main_screen_bloc/movies_bloc.dart';
 import 'package:movies_clean_architecture/movies/presentation/blocs/movie_details_recomm/movie_details_bloc.dart';
 
@@ -32,15 +33,18 @@ class ServiceLocator {
         () => MovieDetailsRepository(sl()));
 
     //! UseCases
+    // MainScreen
     sl.registerLazySingleton(() => GetNowPlayingMoviesUseCase(sl()));
     sl.registerLazySingleton(() => GetPopularMoviesUseCase(sl()));
     sl.registerLazySingleton(() => GetTopRatedMoviesUseCase(sl()));
+    sl.registerLazySingleton(() => SearchMovieUseCase(sl()));
+    // Movie Details
     sl.registerLazySingleton(() => GetMovieDetailsUseCase(sl()));
     sl.registerLazySingleton(() => GetCurrentMovieRecommendationsUseCase(sl()));
 
     //! Movies Bloc
     sl.registerFactory(
-      () => MoviesBloc(sl(), sl(), sl()),
+      () => MoviesBloc(sl(), sl(), sl(), sl()),
     );
     //! Movie Details
     sl.registerFactory(() => MovieDetailsBloc(sl(), sl()));

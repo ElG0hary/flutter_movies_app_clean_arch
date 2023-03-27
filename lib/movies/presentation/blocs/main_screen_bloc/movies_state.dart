@@ -2,7 +2,7 @@ part of 'movies_bloc.dart';
 
 abstract class MoviesState extends Equatable {
   const MoviesState();
-  
+
   @override
   List<Object?> get props => [];
 }
@@ -64,5 +64,24 @@ class TopRatedMoviesState extends MoviesState {
         topRatedMovies,
         topRatedErrorMessage,
         topRatedRequestState,
+      ];
+}
+
+class SearchForMovieState extends MoviesState {
+  final List<Movie>? searchMovieResults;
+  final String searchMovieErrorMessage;
+  final RequestState searchMovieRequestState;
+
+  const SearchForMovieState({
+    this.searchMovieResults,
+    this.searchMovieErrorMessage = '',
+    this.searchMovieRequestState = RequestState.loading,
+  });
+
+  @override
+  List<Object?> get props => [
+        searchMovieResults,
+        searchMovieErrorMessage,
+        searchMovieRequestState,
       ];
 }
