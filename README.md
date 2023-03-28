@@ -17,7 +17,7 @@ This is A Clean Architecture Movies App.
 
 ## Getting Started
 ### Input Your API KEY here [lib/core/network/api_constants.dart]
-### Built using [https://www.themoviedb.org/] API.
+### Built with [https://www.themoviedb.org/] API.
 
 #### A Few ScreenShots:
   
